@@ -7,10 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 3. In-memory DB
 let tasks = [];
 
-// 4. Validation schema
+//  Validation schema
 const taskSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
@@ -61,7 +60,7 @@ app.get("/tasks", (req, res) => {
 
 app.delete("/tasks/:id", (req, res) => {
   try {
-    // 🔐 Step 1: Check header
+  // Step 1: Check header
     const authHeader = req.headers["x-admin-auth"];
 
     if (authHeader !== "true") {
@@ -70,10 +69,9 @@ app.delete("/tasks/:id", (req, res) => {
       });
     }
 
-    // 🆔 Step 2: Get ID from URL
     const { id } = req.params;
 
-    // 🔍 Step 3: Check if task exists
+    //  Step 2: Check if task exists
     const taskIndex = tasks.findIndex(t => t.id === id);
 
     if (taskIndex === -1) {
@@ -82,10 +80,9 @@ app.delete("/tasks/:id", (req, res) => {
       });
     }
 
-    // 🗑️ Step 4: Remove task
+    // Step 3: Remove task
     tasks.splice(taskIndex, 1);
 
-    // ✅ Step 5: Send response
     res.status(200).json({
       message: "Task deleted successfully"
     });
