@@ -1,0 +1,1 @@
+- install node modules and run using nodemon src/app.js
